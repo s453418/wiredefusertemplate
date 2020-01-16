@@ -4,9 +4,50 @@ namespace SpriteKind {
 function UpdateCursor () {
     cursor.top = Math.floor(120 / Ratio) * (cursorPos + 1) - 2
 }
-function SerialNumber2 () {
-    if (true) {
-    	
+function SixWireSolve () {
+    yellowCount = 0
+    whiteCount = 0
+    redCount = 0
+    for (let index = 0; index <= WireList.length - 1; index++) {
+        if (WireList[index] == 0) {
+            redCount += 1
+        } else if (WireList[index] == 3) {
+            yellowCount += 1
+        } else if (WireList[index] == 1) {
+            whiteCount += 1
+        }
+    }
+    if (yellowCount == 0 && SerialNumber % 2 == 1) {
+        game.splash("Cut the Third Wire")
+    } else if (yellowCount == 1 && whiteCount > 1) {
+        game.splash("Cut the Fourth Wire")
+    } else if (redCount == 0) {
+        game.splash("Cut the Last Wire")
+    } else {
+        game.splash("Cut the Fourth Wire")
+    }
+}
+function FiveWireSolve () {
+    redCount = 0
+    yellowCount = 0
+    blackCount = 0
+    for (let index = 0; index <= WireList.length - 1; index++) {
+        if (WireList[index] == 0) {
+            redCount += 1
+        } else if (WireList[index] == 3) {
+            yellowCount += 1
+        } else if (WireList[index] == 0) {
+            blackCount += 1
+        }
+    }
+    if (WireList[4] == 4 && SerialNumber % 2 == 1) {
+        game.splash("Cut the Fourth Wire")
+    } else if (redCount == 1 && yellowCount > 1) {
+        game.splash("Cut the First Wire")
+    } else if (blackCount == 0) {
+        game.splash("Cut the Second Wire")
+    } else {
+        game.splash("Cut the First Wire")
     }
 }
 function ThreeWireSolve () {
@@ -141,10 +182,10 @@ controller.A.onEvent(ControllerButtonEvent.Pressed, function () {
         FourWireSolve()
     }
     if (wireCount == 5) {
-    	
+        FiveWireSolve()
     }
     if (wireCount == 6) {
-    	
+        SixWireSolve()
     }
 })
 sprites.onCreated(SpriteKind.Wire, function (sprite) {
@@ -170,16 +211,18 @@ controller.up.onEvent(ControllerButtonEvent.Pressed, function () {
     }
     UpdateCursor()
 })
-let yellowCount = 0
 let mySprite: Image = null
-let SerialNumber = 0
 let mySprite2: Sprite = null
 let sprite_list: Sprite[] = []
 let WireSprites: Image[] = []
 let colourList: number[] = []
-let WireList: number[] = []
 let blueCount = 0
+let blackCount = 0
+let SerialNumber = 0
+let WireList: number[] = []
 let redCount = 0
+let whiteCount = 0
+let yellowCount = 0
 let cursorPos = 0
 let Ratio = 0
 let cursor: Sprite = null
